@@ -29,22 +29,30 @@ const props = defineProps<Props>();
 // referencia al contenedor del scroll
 const chatRef = ref<HTMLDivElement | null>(null);
 
-// Observa cambios en props.messages
-watch(props.messages, () => {
-  console.log('se disparó el update de messages');
-  // Cuando cambia:
+// Observa cambios en props.messages | funciona para la ejecucion
+// para pasar las pruevas es sin .messages
+watch(
+  // Línea 1: La función a observar (en este caso, las props.messages)
+  () => props.messages,
 
-  // Espera 100ms (para permitir renderizado) da tiempo a que Vue actualice el DOM
-  setTimeout(() => {
-    console.log('messages cambio', props.messages.length);
+  // Línea 2: El callback que se ejecuta cuando cambia props.messages
+  () => {
+    // Cuando cambia:
 
-    // La comprobación if (chatRef?.value) evita errores si la referencia no existe
-    if (chatRef?.value) {
-      chatRef.value.scrollTo({
-        top: chatRef.value.scrollHeight, //Hace scroll al final del contenedor (scrollHeight) | scrollHeight representa la altura total del contenido
-        behavior: 'smooth', // Con animación suave (behavior: 'smooth')
-      });
-    }
-  }, 100);
-});
+    // Espera 100ms (para permitir renderizado) da tiempo a que Vue actualice el DOM
+    setTimeout(() => {
+      // La comprobación if (chatRef?.value) evita errores si la referencia no existe
+      if (chatRef?.value) {
+        // Si existe la referencia, hace scroll al final del contenedor
+        chatRef.value.scrollTo({
+          top: chatRef.value.scrollHeight, // Hace scroll al final del contenedor
+          behavior: 'smooth', // Con animación suave
+        });
+      }
+    }, 100);
+  },
+
+  // Línea 3: Opciones del watcher
+  { deep: true }, // Observa cambios profundos en el array/objeto Sin esto, el watcher solo se activaría si se asigna un nuevo array a props.messages. Con deep: true, también detecta cambios internos como añadir/eliminar elementos del array.
+);
 </script>

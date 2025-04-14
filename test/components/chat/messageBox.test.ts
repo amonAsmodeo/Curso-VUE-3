@@ -24,7 +24,7 @@ describe('<MessageBox/ >', () => {
 
     expect(wrapper.emitted('sendMessage')?.[0]).toEqual([message]); // esperamos que se emita el mensaje
 
-    expect(wrapper.vm.message as any).toBe(''); // evauamos que el mensaje ese vacio al final
+    expect(wrapper.vm.message as any).toBe(''); // evaluamos que el mensaje ese vacio al final
   });
 
   // probar modificador de evento
